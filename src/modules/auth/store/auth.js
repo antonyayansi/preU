@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { SignJWT, jwtVerify } from 'jose';
+import { baseApi } from "../../../services/baseApi";
 
 const secret = new TextEncoder().encode(import.meta.env.VITE_JWT_SECRET);
 
@@ -27,7 +28,8 @@ export const auth = defineStore("auth", {
         async onLogin(credentials){
             this.isLoading = true;
             try {
-                
+                const { data } = await baseApi.post("/login", credentials)
+                console.log("Login response data:", data);
             }catch(e){
                 console.error("Login failed:", e);
             }
